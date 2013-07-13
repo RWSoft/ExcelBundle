@@ -2,14 +2,13 @@
 
 namespace RWSoft\ExcelBundle;
 
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * @author Rouven Weßling
  */
-class ExcelResponse extends Response
+class ExcelResponse extends StreamedResponse
 {
-	protected $send = false;
 	protected $writer = null;
 
 	/**
@@ -31,9 +30,9 @@ class ExcelResponse extends Response
 	/**
 	 * {@inheritDoc}
 	 */
-	public static function create($callback = null, $status = 200, $headers = array())
+	public static function create($writer = null, $status = 200, $headers = array())
 	{
-		return new static($callback, $status, $headers);
+		return new static($writer, $status, $headers);
 	}
 
 	/**
@@ -55,11 +54,11 @@ class ExcelResponse extends Response
 	 */
 	public function sendContent()
 	{
-		if ($this->send) {
+		if ($this->streamed) {
 			return;
 		}
 
-		$this->send = true;
+		$this->streamed = true;
 
 		if (null === $this->writer) {
 			throw new \LogicException('A writer has to be set.');
@@ -83,10 +82,12 @@ class ExcelResponse extends Response
 	/**
 	 * {@inheritdoc}
 	 *
-	 * @return false
+	 * @throws \LogicException when the callback is not null
 	 */
-	public function getContent()
+	public function setCallback($callback)
 	{
-		return false;
+		if (null !== $callback) {
+			throw new \LogicException('The callback cannot be set on a ExcelResponse instance.');
+		}
 	}
 }
