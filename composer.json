@@ -1,0 +1,23 @@
+{
+    "name": "rwsoft/excel-bundle",
+    "type": "symfony-bundle",
+    "description": "This bundle integrates PHPExcel with Symfony2.",
+    "keywords": ["Excel", "Symfony2"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rouven Weßling",
+            "email": "me@rouvenwessling.de",
+            "homepage": "http://www.rouvenwessling.de"
+        }
+    ],
+    "require": {
+    	"php": ">=5.3.3",
+    	"symfony/framework-bundle": "2.*",
+        "phpoffice/phpexcel": "1.7.*"
+    },
+    "autoload": {
+        "psr-0": { "RWSoft\\ExcelBundle\\": "" }
+    },
+    "target-dir": "RWSoft/ExcelBundle"
+}
